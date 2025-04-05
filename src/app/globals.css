@@ -94,6 +94,10 @@ body {
   text-align: center;
 }
 
+.ant-layout-header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Animation utilities */
 .fade-in {
   animation: fadeIn 0.3s ease-in;

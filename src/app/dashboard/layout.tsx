@@ -1,6 +1,7 @@
 'use client';
 
-import { Layout, Menu } from 'antd';
+import { Layout, Button, Menu } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { menuItems } from '@/config/menu';
@@ -22,6 +23,12 @@ export default function DashboardLayout({
 }) {
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
+
+  const handleLogout = () => {
+    // Clear the auth token
+    document.cookie = 'token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+    router.push('/login');
+  };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -53,7 +60,14 @@ export default function DashboardLayout({
       </Sider>
       <Layout>
         <Header className="site-header px-6 flex items-center justify-between">
-          {/* Add header content here */}
+          <div className="text-xl font-bold">CMS Dashboard</div>
+          <Button 
+            icon={<LogoutOutlined />}
+            onClick={handleLogout}
+            type="link"
+          >
+            Logout
+          </Button>
         </Header>
         <Content className="m-6">
           <div className="p-6 bg-[var(--background)] min-h-[360px] rounded-lg border border-[var(--border)] shadow-sm fade-in">

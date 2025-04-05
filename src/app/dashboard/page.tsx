@@ -1,11 +1,18 @@
 'use client';
 
 import { Card, Col, Row, Statistic } from 'antd';
-import { ArrowUpOutlined, ArrowDownOutlined, UserOutlined, ShoppingCartOutlined, DollarOutlined, FileOutlined } from '@ant-design/icons';
+import { 
+  ArrowUpOutlined, 
+  ArrowDownOutlined, 
+  UserOutlined, 
+  ShoppingCartOutlined, 
+  DollarOutlined, 
+  FileOutlined 
+} from '@ant-design/icons';
 
 export default function DashboardPage() {
   return (
-    <div>
+    <>
       <h1 className="text-2xl font-bold mb-6">Dashboard Overview</h1>
       
       <Row gutter={[16, 16]}>
@@ -78,6 +85,6 @@ export default function DashboardPage() {
           </Card>
         </Col>
       </Row>
-    </div>
+    </>
   );
 }
