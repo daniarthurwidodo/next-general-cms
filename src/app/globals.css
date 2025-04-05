@@ -38,3 +38,24 @@ body {
 .ant-form-item-label > label {
   font-weight: 500;
 }
+
+/* Ant Design dark mode overrides */
+[data-theme='dark'] .ant-card {
+  background-color: #141414;
+}
+
+[data-theme='dark'] .ant-statistic-title {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme='dark'] .ant-statistic-content {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme='dark'] .ant-layout-header {
+  background-color: #141414;
+}
+
+[data-theme='dark'] .ant-layout-footer {
+  background-color: #141414;
+}
