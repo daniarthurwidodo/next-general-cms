@@ -3,12 +3,7 @@
 import { Layout, Menu } from 'antd';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import {
-  UserOutlined,
-  FileOutlined,
-  TeamOutlined,
-  PieChartOutlined,
-} from '@ant-design/icons';
+import { menuItems } from '@/config/menu';
 import { useState } from 'react';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -21,43 +16,23 @@ export default function DashboardLayout({
   const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
 
-  const menuItems = [
-    {
-      key: 'overview',
-      icon: <PieChartOutlined />,
-      label: 'Overview',
-    },
-    {
-      key: 'users',
-      icon: <UserOutlined />,
-      label: 'Users',
-    },
-    {
-      key: 'teams',
-      icon: <TeamOutlined />,
-      label: 'Teams',
-    },
-    {
-      key: 'files',
-      icon: <FileOutlined />,
-      label: 'Files',
-    },
-  ];
-
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider 
         collapsible 
         collapsed={collapsed} 
-        onCollapse={(value) => setCollapsed(value)}
+        onCollapse={setCollapsed}
+        className="border-r border-[var(--border)]"
+        width={256}
       >
-        <div className="p-4">
+        <div className="p-4 flex items-center justify-center">
           <Image 
             src="/next.svg" 
             alt="Logo" 
-            className="h-8 w-auto dark:invert"
+            className="h-8 w-auto transition-all duration-300 dark:invert"
             width={32}
             height={32}
+            priority
           />
         </div>
         <Menu 
@@ -66,16 +41,19 @@ export default function DashboardLayout({
           mode="inline" 
           items={menuItems} 
           onClick={({key}) => router.push(`/dashboard/${key}`)}
+          className="border-none"
         />
       </Sider>
       <Layout>
-        <Header className="bg-white dark:bg-[#141414] p-4" />
-        <Content className="m-4">
-          <div className="p-6 bg-white dark:bg-[#141414] min-h-[360px] rounded-lg">
+        <Header className="site-header px-6 flex items-center justify-between">
+          {/* Add header content here */}
+        </Header>
+        <Content className="m-6">
+          <div className="p-6 bg-[var(--background)] min-h-[360px] rounded-lg border border-[var(--border)] shadow-sm fade-in">
             {children}
           </div>
         </Content>
-        <Footer className="text-center">
+        <Footer className="site-footer">
           Next.js Admin Dashboard ©{new Date().getFullYear()}
         </Footer>
       </Layout>
