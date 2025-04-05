@@ -5,8 +5,15 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { menuItems } from '@/config/menu';
 import { useState } from 'react';
+import { deleteCookie } from '@/utils/cookies';
 
 const { Header, Content, Footer, Sider } = Layout;
+
+export const logout = async () => {
+  deleteCookie('token');
+  const router = (await import('next/navigation')).useRouter();
+  router.push('/login');
+};
 
 export default function DashboardLayout({
   children,

@@ -5,25 +5,39 @@ import { useState } from 'react';
 import { Card, Form, Input, Button, Typography, Divider, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { authService } from '@/services/auth.service';
+import { LoginCredentials, RegisterCredentials } from '@/types/auth';
 
 const { Title } = Typography;
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const onFinish = async (values: unknown) => {
+  const onFinish = async (values: LoginCredentials | RegisterCredentials) => {
     setLoading(true);
     try {
       if (isLogin) {
-        // Add your login logic here
-        console.log('Login:', values);
+        const { status, data } = await authService.login(values as LoginCredentials);
+        
+        if (status === 200) {
+          // Use cookies instead of localStorage
+          document.cookie = `token=${data.token}; path=/; max-age=86400; secure; samesite=strict`
+          message.success('Login successful!');
+          router.push('/dashboard');
+        } else {
+          message.error('Login failed. Please check your credentials.');
+        }
       } else {
-        // Add your register logic here
-        console.log('Register:', values);
+        const response = await authService.register(values as RegisterCredentials);
+        document.cookie = `token=${response.token}; path=/; max-age=86400; secure; samesite=strict`
+        message.success('Registration successful!');
+        router.push('/dashboard');
       }
     } catch (error) {
-      message.error('An error occurred');
+      message.error(error instanceof Error ? error.message : 'An error occurred');
     }
     setLoading(false);
   };

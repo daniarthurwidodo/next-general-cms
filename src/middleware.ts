@@ -1,22 +1,27 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const isAuthenticated = false; // Replace with your auth check logic
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') || 
-                     request.nextUrl.pathname.startsWith('/register');
+  const token = request.cookies.get('token')
+  const isLoginPage = request.nextUrl.pathname === '/login'
 
-  if (!isAuthenticated && !isAuthPage && request.nextUrl.pathname !== '/') {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // If user is not logged in and trying to access protected route
+  if (!token && !isLoginPage) {
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  if (isAuthenticated && isAuthPage) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+  // If user is logged in and trying to access login page
+  if (token && isLoginPage) {
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
+// Configure which routes to protect
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-};
+  matcher: [
+    '/dashboard/:path*',
+    '/login'
+  ]
+}
